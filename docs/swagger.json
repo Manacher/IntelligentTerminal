@@ -1,0 +1,26 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/hello": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "init test function",
+                "responses": {}
+            }
+        },
+        "/test": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "used to test function",
+                "responses": {}
+            }
+        }
+    }
+}

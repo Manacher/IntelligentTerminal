@@ -1,0 +1,16 @@
+info:
+  contact: {}
+paths:
+  /hello:
+    get:
+      produces:
+      - application/json
+      responses: {}
+      summary: init test function
+  /test:
+    get:
+      produces:
+      - application/json
+      responses: {}
+      summary: used to test function
+swagger: "2.0"
