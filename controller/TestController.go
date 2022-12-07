@@ -66,13 +66,16 @@ func CommentInsertTest() error {
 	comment := models.Comment{
 		MomentID:    1,
 		SenderID:    1,
-		ReceiverID:  0,
-		TextContent: "",
-		Image:       "",
+		ReceiverID:  1,
+		BelongingID: 3,
+		TextContent: "123",
+		Image:       "123",
 	}
-	if err := models.DB.Create(&comment).Error; err != nil {
-		return err
+
+	if comment.ReceiverID == 0 {
+		return models.DB.Omit("ReceiverID", "BelongingID").Create(&comment).Error
 	} else {
-		return nil
+		return models.DB.Create(&comment).Error
 	}
+
 }
