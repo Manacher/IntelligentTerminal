@@ -33,6 +33,36 @@ const docTemplate = `{
                 "summary": "used to test function",
                 "responses": {}
             }
+        },
+        "/user/login": {
+            "get": {
+                "summary": "used to authorize user and return jwt token",
+                "parameters": [
+                    {
+                        "description": "the passed-in parameter of login function",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UserLoginReq"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "request.UserLoginReq": {
+            "type": "object",
+            "properties": {
+                "account": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
         }
     }
 }`

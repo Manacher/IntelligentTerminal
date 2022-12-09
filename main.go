@@ -7,6 +7,7 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"terminal/controller"
+	"terminal/controller/user"
 	"terminal/define"
 	_ "terminal/docs"
 )
@@ -20,6 +21,8 @@ func main() {
 }
 
 func Register(app *gin.Engine) {
+	app.GET("/user/login", user.Login)
+
 	app.GET("/hello", controller.Hello)
 	app.GET("/test", controller.Test)
 	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

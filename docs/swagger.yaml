@@ -1,3 +1,11 @@
+definitions:
+  request.UserLoginReq:
+    properties:
+      account:
+        type: string
+      password:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -13,4 +21,15 @@ paths:
       - application/json
       responses: {}
       summary: used to test function
+  /user/login:
+    get:
+      parameters:
+      - description: the passed-in parameter of login function
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserLoginReq'
+      responses: {}
+      summary: used to authorize user and return jwt token
 swagger: "2.0"
