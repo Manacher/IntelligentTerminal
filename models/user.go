@@ -4,8 +4,9 @@ import "time"
 
 type User struct {
 	ID          int
-	AccountID   int
+	Account     string
+	Password    string
 	Nickname    string
 	Avatar      string
-	CreatedTime time.Time
+	CreatedTime time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 }

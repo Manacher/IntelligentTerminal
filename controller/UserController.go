@@ -3,7 +3,6 @@ package controller
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"terminal/request"
 	"terminal/service/user"
 	"terminal/util"
 )
@@ -13,50 +12,39 @@ import (
 // @Param   req body request.UserLoginReq true "the passed-in parameter of login function"
 // @Router  /user/login [post]
 func Login(c *gin.Context) {
-	userLoginReq := new(request.UserLoginReq)
-	if err := c.ShouldBind(&userLoginReq); err != nil {
+	token, err := user.ProcessLogin(c)
+	if err != nil {
 		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
 	}
-	if token, err := user.Verify(userLoginReq); err != nil {
-		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
-	} else {
-		util.UniformReturn(c, http.StatusOK, true, "login successfully", token)
+	util.UniformReturn(c, http.StatusOK, true, "login successfully", token)
+}
+
+// AvatarUpdate
+// @Summary  used to authorize user and return jwt token
+// @Param    file formData file false "the avatar image file selected by the user"
+// @Router   /user/avatarUpdate [post]
+// @Security ApiKeyAuth
+func AvatarUpdate(c *gin.Context) {
+	address, err := user.ProcessAvatarUpload(c)
+	if err != nil {
+		util.UniformReturn(c, http.StatusOK, true, err.Error(), "")
+		return
 	}
+	util.UniformReturn(c, http.StatusOK, true, "upload successfully", address)
 }
 
 // Register
 // @Summary used to register new account
-// @Param   UserRegisterReq body     request.UserRegisterReq true  "the passed-in parameter of register function"
-// @Param   file            formData file                    false "the avatar image file selected by the user"
+// @Param   UserRegisterReq body request.UserRegisterReq false "the passed-in parameter of register function"
 // @Router  /user/register [post]
-// @accept  multipart/form-data
 func Register(c *gin.Context) {
-	fileHeader, err := c.FormFile("file")
-	if err != nil {
-		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+	// process register pipeline
+	if err := user.ProcessRegister(c); err != nil {
+		util.UniformReturn(c, http.StatusOK, true, err.Error(), "")
+		return
 	}
-
-	file, err := fileHeader.Open()
-	if err != nil {
-		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
-	}
-
-	b := make([]byte, fileHeader.Size)
-	_, err = file.Read(b)
-	if err != nil {
-		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
-	}
-
-	util.UniformReturn(c, http.StatusOK, true, "register successfully", b)
-
-	//if err != nil {
-	//	util.UniformReturn(c, http.StatusOK, true, "register successfully", file)
-	//} else {
-	//	util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
-	//}
-
-	//size := file.Size
-	//size += 1
+	util.UniformReturn(c, http.StatusOK, true, "register successfully", "")
 }
 
 // Detail
@@ -74,8 +62,9 @@ func Modify(c *gin.Context) {
 }
 
 // Password
-// @Summary used to modify the user's password
-// @Router  /user/password [put]
+// @Summary  used to modify the user's password
+// @Router   /user/password [put]
+// @Security ApiKeyAuth
 func Password(c *gin.Context) {
 	util.UniformReturn(c, http.StatusOK, true, "mock", "")
 }
@@ -92,4 +81,16 @@ func Follower(c *gin.Context) {
 // @Router  /user/subscribed [get]
 func Subscribed(c *gin.Context) {
 	util.UniformReturn(c, http.StatusOK, true, "mock", "")
+}
+
+// TagList
+// @Summary used to get all the tag
+// @Router  /user/tagList [get]
+func TagList(c *gin.Context) {
+	tags, err := user.GetTagList()
+	if err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
+	}
+	util.UniformReturn(c, http.StatusOK, true, "get tag list successfully", tags)
 }

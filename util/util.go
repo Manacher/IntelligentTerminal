@@ -3,6 +3,7 @@ package util
 import (
 	"context"
 	"crypto/md5"
+	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -47,6 +48,18 @@ func ParseToken(tokenString string) (*jwt.Token, *define.UserClaim, error) {
 		return []byte(define.JwtSecret), nil
 	})
 	return token, uc, err
+}
+
+func JwtAuthentication(ctx *gin.Context) (*define.UserClaim, error) {
+	tokenString := ctx.GetHeader("Authorization")
+	if tokenString == "" {
+		return nil, errors.New("empty Authorization")
+	}
+	token, claims, err := ParseToken(tokenString)
+	if err != nil || !token.Valid {
+		return nil, errors.New("invalid Authorization")
+	}
+	return claims, nil
 }
 
 func GetUUID() string {

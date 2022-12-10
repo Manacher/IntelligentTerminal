@@ -11,6 +11,7 @@ const JwtSecret = "terminal-key"
 const BucketPath = "https://terminal-1304032890.cos.ap-nanjing.myqcloud.com"
 const SecretID = "AKIDwjL5btxnPnwsb5MPUL0TkodEfsrb6Zpq"
 const SecretKey = "sWw73lFVXO6apppcEeuynOlvsc8SYRTP"
+const DefaultAvatar = "https://terminal-1304032890.cos.ap-nanjing.myqcloud.com/terminal/default.png"
 
 type UserClaim struct {
 	ID int `json:"id"`

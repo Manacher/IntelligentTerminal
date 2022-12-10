@@ -11,6 +11,12 @@ import (
 	_ "terminal/docs"
 )
 
+// @title                      Intelligent Terminal Backend API
+// @version                    0.1
+// @description                This is the API document of Intelligent Terminal Backend
+// @securityDefinitions.apikey ApiKeyAuth
+// @in                         header
+// @name                       Authorization
 func main() {
 	app := gin.New()
 	// use cors to solve the cross domain problem
@@ -27,6 +33,8 @@ func Register(app *gin.Engine) {
 	app.PUT("/user/password", controller.Password)
 	app.GET("/user/follower", controller.Follower)
 	app.GET("/user/subscribed", controller.Subscribed)
+	app.GET("/user/tagList", controller.TagList)
+	app.POST("/user/avatarUpdate", controller.AvatarUpdate)
 
 	app.POST("/chat/sendText", controller.SendText)
 	app.POST("/chat/sendImage", controller.SendImage)
