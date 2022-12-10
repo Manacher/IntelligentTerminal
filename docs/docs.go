@@ -34,8 +34,37 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/user/login": {
+        "/test/upload": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "summary": "used to test the file upload function",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "the avatar image file selected by the user",
+                        "name": "file",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/user/detail": {
             "get": {
+                "summary": "used to get the target user's detailed information",
+                "responses": {}
+            }
+        },
+        "/user/follower": {
+            "get": {
+                "summary": "used to get the user's follower list",
+                "responses": {}
+            }
+        },
+        "/user/login": {
+            "post": {
                 "summary": "used to authorize user and return jwt token",
                 "parameters": [
                     {
@@ -50,6 +79,50 @@ const docTemplate = `{
                 ],
                 "responses": {}
             }
+        },
+        "/user/modify": {
+            "put": {
+                "summary": "used to modify the user's personal information",
+                "responses": {}
+            }
+        },
+        "/user/password": {
+            "put": {
+                "summary": "used to modify the user's password",
+                "responses": {}
+            }
+        },
+        "/user/register": {
+            "post": {
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "summary": "used to register new account",
+                "parameters": [
+                    {
+                        "description": "the passed-in parameter of register function",
+                        "name": "UserRegisterReq",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.UserRegisterReq"
+                        }
+                    },
+                    {
+                        "type": "file",
+                        "description": "the avatar image file selected by the user",
+                        "name": "file",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/user/subscribed": {
+            "get": {
+                "summary": "used to get the user's subscribed list",
+                "responses": {}
+            }
         }
     },
     "definitions": {
@@ -57,6 +130,23 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "account": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "request.UserRegisterReq": {
+            "type": "object",
+            "properties": {
+                "account": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "nickname": {
                     "type": "string"
                 },
                 "password": {

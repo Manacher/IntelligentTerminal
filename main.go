@@ -7,7 +7,6 @@ import (
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"terminal/controller"
-	"terminal/controller/user"
 	"terminal/define"
 	_ "terminal/docs"
 )
@@ -21,9 +20,24 @@ func main() {
 }
 
 func Register(app *gin.Engine) {
-	app.GET("/user/login", user.Login)
+	app.POST("/user/login", controller.Login)
+	app.POST("/user/register", controller.Register)
+	app.GET("/user/detail", controller.Detail)
+	app.PUT("/user/modify", controller.Modify)
+	app.PUT("/user/password", controller.Password)
+	app.GET("/user/follower", controller.Follower)
+	app.GET("/user/subscribed", controller.Subscribed)
+
+	app.POST("/chat/sendText", controller.SendText)
+	app.POST("/chat/sendImage", controller.SendImage)
+	app.POST("/chat/sendAudio", controller.SendAudio)
+	app.POST("/chat/call", controller.Call)
+	app.GET("/chat/historyList", controller.HistoryList)
 
 	app.GET("/hello", controller.Hello)
+
 	app.GET("/test", controller.Test)
+	app.POST("/test/upload", controller.TestUpload)
+
 	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
