@@ -92,15 +92,13 @@ func VerifyFileExistence(c *gin.Context) (bool, error, *models.Image) {
 	hash := fmt.Sprintf("%x", md5.Sum(b))
 	// query whether the file already exists
 	if err := models.DB.Where("hash = ?", hash).First(image).Error; err != nil {
-		if err != nil {
-			if err != gorm.ErrRecordNotFound {
-				// system error
-				return false, err, image
-			} else {
-				// the file doesn't exist
-				image.Hash = hash
-				return false, nil, image
-			}
+		if err != gorm.ErrRecordNotFound {
+			// system error
+			return false, err, image
+		} else {
+			// the file doesn't exist
+			image.Hash = hash
+			return false, nil, image
 		}
 	}
 	// file exists
