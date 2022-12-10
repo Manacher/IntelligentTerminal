@@ -1,10 +1,7 @@
 package controller
 
 import (
-	"crypto/md5"
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 	"net/http"
 	"terminal/models"
 	"terminal/util"
@@ -29,48 +26,30 @@ func Test(c *gin.Context) {
 // @Router  /test/upload [post]
 // @accept  multipart/form-data
 func TestUpload(c *gin.Context) {
-	//c.Request.FormFile("file")
-	file, fileHeader, err := c.Request.FormFile("file")
+	has, err, image := util.VerifyFileExistence(c)
 	if err != nil {
 		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
 	}
 
-	// calculate the file's hash mapping
-	b := make([]byte, fileHeader.Size)
-	fileCopy := file
-	_, err = fileCopy.Read(b)
-	if err != nil {
-		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
-	}
-	hash := fmt.Sprintf("%x", md5.Sum(b))
-
-	// query whether the file already exists
-	image := new(models.Image)
-	if err := models.DB.Where("hash = ?", hash).First(image).Error; err != nil {
-		if err != nil {
-			if err != gorm.ErrRecordNotFound {
-				// system error
-				util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
-				return
-			} else {
-				// the file doesn't exist
-				// upload the file and store its hash and url path into the database
-				address, err := util.COSUpload(c)
-				if err != nil {
-					util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
-				}
-
-				image.Path = address
-				image.Hash = hash
-				if err := models.DB.Create(image).Error; err != nil {
-					util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
-				}
-				util.UniformReturn(c, http.StatusOK, true, "upload successfully", address)
-			}
-		}
-	} else {
+	if has {
 		// the file exists, return the path directly
 		util.UniformReturn(c, http.StatusOK, true, "file exists", image.Path)
+		return
+	} else {
+		// the file doesn't exist
+		// upload the file and store its hash and url path into the database
+		address, err := util.COSUpload(c)
+		if err != nil {
+			util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+			return
+		}
+		image.Path = address
+		if err := models.DB.Create(image).Error; err != nil {
+			util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+			return
+		}
+		util.UniformReturn(c, http.StatusOK, true, "upload successfully", address)
 	}
 }
 
