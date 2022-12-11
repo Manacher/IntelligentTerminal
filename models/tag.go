@@ -1,6 +1,6 @@
 package models
 
 type Tag struct {
-	ID         int
-	TagContent string
+	ID         int    `json:"id"`
+	TagContent string `json:"tag_content"`
 }

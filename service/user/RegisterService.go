@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"log"
 	"terminal/define"
 	"terminal/models"
 	"terminal/request"
@@ -16,7 +15,6 @@ func ProcessRegister(c *gin.Context) error {
 	if err := c.ShouldBind(userRegisterReq); err != nil {
 		return err
 	}
-	log.Println(userRegisterReq)
 
 	user := new(models.User)
 

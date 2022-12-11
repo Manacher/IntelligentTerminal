@@ -9,5 +9,5 @@ type History struct {
 	MsgType     int
 	MsgContent  string
 	ReadStatus  bool
-	CreatedTime time.Time
+	CreatedTime time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 }

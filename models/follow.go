@@ -6,5 +6,5 @@ type Follow struct {
 	ID           int
 	SubscribedID int
 	FollowerID   int
-	CreatedTime  time.Time
+	CreatedTime  time.Time `gorm:"default:CURRENT_TIMESTAMP"`
 }

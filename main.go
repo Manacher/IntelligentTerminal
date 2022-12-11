@@ -30,9 +30,10 @@ func Register(app *gin.Engine) {
 	app.POST("/user/register", controller.Register)
 	app.GET("/user/detail", controller.Detail)
 	app.PUT("/user/modify", controller.Modify)
-	app.PUT("/user/password", controller.Password)
-	app.GET("/user/follower", controller.Follower)
-	app.GET("/user/subscribed", controller.Subscribed)
+	app.PUT("/user/passwordChange", controller.PasswordChange)
+	app.GET("/user/follow", controller.Follow)
+	app.GET("/user/followerList", controller.FollowerList)
+	app.GET("/user/subscribedList", controller.SubscribedList)
 	app.GET("/user/tagList", controller.TagList)
 	app.POST("/user/avatarUpdate", controller.AvatarUpdate)
 
@@ -46,6 +47,5 @@ func Register(app *gin.Engine) {
 
 	app.GET("/test", controller.Test)
 	app.POST("/test/upload", controller.TestUpload)
-
 	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }

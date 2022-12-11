@@ -8,6 +8,7 @@ import (
 )
 
 // Hello
+// @Tags    Test
 // @Summary init test function
 // @Produce json
 // @Router  /hello [get]

@@ -8,20 +8,22 @@ import (
 )
 
 // Login
-// @Summary used to authorize user and return jwt token
+// @Tags    User
+// @Summary used to authorize user and return jwt token, id
 // @Param   req body request.UserLoginReq true "the passed-in parameter of login function"
 // @Router  /user/login [post]
 func Login(c *gin.Context) {
-	token, err := user.ProcessLogin(c)
+	resp, err := user.ProcessLogin(c)
 	if err != nil {
 		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
 		return
 	}
-	util.UniformReturn(c, http.StatusOK, true, "login successfully", token)
+	util.UniformReturn(c, http.StatusOK, true, "login successfully", resp)
 }
 
 // AvatarUpdate
-// @Summary  used to authorize user and return jwt token
+// @Tags     User
+// @Summary  used to upload image and replace user's avatar as the uploaded image
 // @Param    file formData file false "the avatar image file selected by the user"
 // @Router   /user/avatarUpdate [post]
 // @Security ApiKeyAuth
@@ -31,12 +33,13 @@ func AvatarUpdate(c *gin.Context) {
 		util.UniformReturn(c, http.StatusOK, true, err.Error(), "")
 		return
 	}
-	util.UniformReturn(c, http.StatusOK, true, "upload successfully", address)
+	util.UniformReturn(c, http.StatusOK, true, "upload avatar successfully", address)
 }
 
 // Register
+// @Tags    User
 // @Summary used to register new account
-// @Param   UserRegisterReq body request.UserRegisterReq false "the passed-in parameter of register function"
+// @Param   UserRegisterReq body request.UserRegisterReq true "the passed-in parameter of register function"
 // @Router  /user/register [post]
 func Register(c *gin.Context) {
 	// process register pipeline
@@ -48,42 +51,82 @@ func Register(c *gin.Context) {
 }
 
 // Detail
-// @Summary used to get the target user's detailed information
-// @Router  /user/detail [get]
+// @Tags     User
+// @Summary  used to get the target user's detailed information
+// @Param    id query int true "id"
+// @Router   /user/detail [get]
+// @Security ApiKeyAuth
 func Detail(c *gin.Context) {
-	util.UniformReturn(c, http.StatusOK, true, "mock", "")
+	resp, err := user.ProcessDetail(c)
+	if err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
+	}
+	util.UniformReturn(c, http.StatusOK, true, "get user detail successfully", resp)
 }
 
 // Modify
-// @Summary used to modify the user's personal information
-// @Router  /user/modify [put]
-func Modify(c *gin.Context) {
-	util.UniformReturn(c, http.StatusOK, true, "mock", "")
-}
-
-// Password
-// @Summary  used to modify the user's password
-// @Router   /user/password [put]
+// @Tags     User
+// @Summary  used to modify the user's personal information
+// @Param    UserModifyReq body request.UserModifyReq true "the passed-in parameter of modify function"
+// @Router   /user/modify [put]
 // @Security ApiKeyAuth
-func Password(c *gin.Context) {
-	util.UniformReturn(c, http.StatusOK, true, "mock", "")
+func Modify(c *gin.Context) {
+	if err := user.ProcessModify(c); err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
+	}
+	util.UniformReturn(c, http.StatusOK, true, "modify successfully", "")
 }
 
-// Follower
-// @Summary used to get the user's follower list
-// @Router  /user/follower [get]
-func Follower(c *gin.Context) {
-	util.UniformReturn(c, http.StatusOK, true, "mock", "")
+// PasswordChange
+// @Tags     User
+// @Summary  used to modify the user's password
+// @Param    UserPasswordChangeReq body request.UserPasswordChangeReq true "old password and new password"
+// @Router   /user/passwordChange [put]
+// @Security ApiKeyAuth
+func PasswordChange(c *gin.Context) {
+	if err := user.ProcessPasswordChange(c); err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
+	}
+	util.UniformReturn(c, http.StatusOK, true, "change password successfully", "")
 }
 
-// Subscribed
-// @Summary used to get the user's subscribed list
-// @Router  /user/subscribed [get]
-func Subscribed(c *gin.Context) {
-	util.UniformReturn(c, http.StatusOK, true, "mock", "")
+// FollowerList
+// @Tags     User
+// @Summary  used to get the user's follower list
+// @Param    id   query int true "id"
+// @Param    page query int true "page"
+// @Router   /user/followerList [get]
+// @Security ApiKeyAuth
+func FollowerList(c *gin.Context) {
+	resp, err := user.ProcessFollowerList(c)
+	if err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
+	}
+	util.UniformReturn(c, http.StatusOK, true, "get follower list successfully", resp)
+}
+
+// SubscribedList
+// @Tags     User
+// @Summary  used to get the user's subscribed list
+// @Param    id   query int true "id"
+// @Param    page query int true "page"
+// @Router   /user/subscribedList [get]
+// @Security ApiKeyAuth
+func SubscribedList(c *gin.Context) {
+	resp, err := user.ProcessSubscribedList(c)
+	if err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
+	}
+	util.UniformReturn(c, http.StatusOK, true, "get subscribed list successfully", resp)
 }
 
 // TagList
+// @Tags    User
 // @Summary used to get all the tag
 // @Router  /user/tagList [get]
 func TagList(c *gin.Context) {
@@ -93,4 +136,18 @@ func TagList(c *gin.Context) {
 		return
 	}
 	util.UniformReturn(c, http.StatusOK, true, "get tag list successfully", tags)
+}
+
+// Follow
+// @Tags     User
+// @Summary  used to follow other people
+// @Param    id query int true "id"
+// @Router   /user/follow [get]
+// @Security ApiKeyAuth
+func Follow(c *gin.Context) {
+	if err := user.ProcessFollow(c); err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
+	}
+	util.UniformReturn(c, http.StatusOK, true, "done successfully", "")
 }

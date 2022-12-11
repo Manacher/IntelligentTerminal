@@ -9,6 +9,7 @@ import (
 )
 
 // Test
+// @Tags    Test
 // @Summary used to test function
 // @Produce json
 // @Router  /test [get]
@@ -21,6 +22,7 @@ func Test(c *gin.Context) {
 }
 
 // TestUpload
+// @Tags    Test
 // @Summary used to test the file upload function
 // @Param   file formData file false "the avatar image file selected by the user"
 // @Router  /test/upload [post]
