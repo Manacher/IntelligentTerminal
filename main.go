@@ -36,6 +36,7 @@ func Register(app *gin.Engine) {
 	app.GET("/user/subscribedList", controller.SubscribedList)
 	app.GET("/user/tagList", controller.TagList)
 	app.POST("/user/avatarUpdate", controller.AvatarUpdate)
+	app.GET("/user/momentList", controller.MomentList)
 
 	app.POST("/chat/sendText", controller.SendText)
 	app.POST("/chat/sendImage", controller.SendImage)

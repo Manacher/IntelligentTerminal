@@ -151,3 +151,19 @@ func Follow(c *gin.Context) {
 	}
 	util.UniformReturn(c, http.StatusOK, true, "done successfully", "")
 }
+
+// MomentList
+// @Tags     User
+// @Summary  used to show the moment list of specified user
+// @Param    id   query int true "id"
+// @Param    page query int true "page"
+// @Router   /user/momentList [get]
+// @Security ApiKeyAuth
+func MomentList(c *gin.Context) {
+	momentList, err := user.GetMomentList(c)
+	if err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
+	}
+	util.UniformReturn(c, http.StatusOK, true, "get moment list successfully", momentList)
+}

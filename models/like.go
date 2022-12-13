@@ -1,7 +1,6 @@
 package models
 
 type Like struct {
-	ID       int
-	UserID   int
-	MomentID int
+	UserID   int `json:"user_id"`
+	MomentID int `json:"moment_id"`
 }

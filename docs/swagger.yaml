@@ -158,6 +158,25 @@ paths:
       summary: used to modify the user's personal information
       tags:
       - User
+  /user/momentList:
+    get:
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: integer
+      - description: page
+        in: query
+        name: page
+        required: true
+        type: integer
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: used to show the moment list of specified user
+      tags:
+      - User
   /user/passwordChange:
     put:
       parameters:
