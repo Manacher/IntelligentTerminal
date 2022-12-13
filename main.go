@@ -49,4 +49,13 @@ func Register(app *gin.Engine) {
 	app.GET("/test", controller.Test)
 	app.POST("/test/upload", controller.TestUpload)
 	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	app.POST("/moment/publish", controller.MomentPublish)
+	app.POST("/moment/modify", controller.MomentModify)
+	app.POST("/moment/delete", controller.MomentDelete)
+	app.POST("/moment/like", controller.MomentLike)
+	app.POST("/moment/comment", controller.MomentComment)
+	app.GET("/moment/squareList", controller.MomentSquareList)
+	app.GET("/moment/commentList", controller.MomentCommentList)
+	app.GET("/moment/subCommentList", controller.MomentSubCommentList)
 }
