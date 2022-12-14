@@ -43,11 +43,12 @@ func AvatarUpdate(c *gin.Context) {
 // @Router  /user/register [post]
 func Register(c *gin.Context) {
 	// process register pipeline
-	if err := user.ProcessRegister(c); err != nil {
+	id, err := user.ProcessRegister(c)
+	if err != nil {
 		util.UniformReturn(c, http.StatusOK, true, err.Error(), "")
 		return
 	}
-	util.UniformReturn(c, http.StatusOK, true, "register successfully", "")
+	util.UniformReturn(c, http.StatusOK, true, "register successfully", id)
 }
 
 // Detail

@@ -12,13 +12,16 @@ const Password = "123456"
 const Dbname = "terminal"
 const JwtSecret = "terminal-key"
 
-const BucketPath = "https://terminal-1304032890.cos.ap-nanjing.myqcloud.com"
-const SecretID = "AKIDwjL5btxnPnwsb5MPUL0TkodEfsrb6Zpq"
-const SecretKey = "sWw73lFVXO6apppcEeuynOlvsc8SYRTP"
+//const BucketPath = "https://terminal-1304032890.cos.ap-nanjing.myqcloud.com"
+//const SecretID = "AKIDwjL5btxnPnwsb5MPUL0TkodEfsrb6Zpq"
+//const SecretKey = "sWw73lFVXO6apppcEeuynOlvsc8SYRTP"
+
+const BucketPath = "https://terminal-bucket-1314182456.cos.ap-nanjing.myqcloud.com"
+const SecretID = "AKIDmQsEQahgXCev2va2whDYgbR6Zq590d8P"
+const SecretKey = "Ah4GG4f5JLBqW7d1KSTIvLcgXDh1AC2g"
 const DefaultAvatar = "https://terminal-1304032890.cos.ap-nanjing.myqcloud.com/terminal/default.png"
 
 const FollowerListPageSize = 15
-
 const MomentPageSize = 10
 const MomentCommentPageSize = 10
 const MomentSubCommentPageSize = 15

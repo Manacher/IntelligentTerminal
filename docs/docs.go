@@ -28,6 +28,235 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/moment/comment": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Moment"
+                ],
+                "summary": "used to comment a moment or others' comment under this moment and return status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "belonging_id",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "moment_id",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "receiver_id",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "text_content",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "the image that will be posted by user's comment",
+                        "name": "file",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/moment/commentList": {
+            "get": {
+                "tags": [
+                    "Moment"
+                ],
+                "summary": "given a certain page number and moment_id, return comments of this moment and 2 of its subcommentList",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "the passed-in parameter of page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "the passed-in parameter of moment_id",
+                        "name": "moment_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/moment/delete": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Moment"
+                ],
+                "summary": "used to delete new moment and return status",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "the passed-in parameter of moment's id who is waiting to be deleted",
+                        "name": "moment_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/moment/like": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Moment"
+                ],
+                "summary": "used to like or undo like a moment and return status",
+                "parameters": [
+                    {
+                        "description": "the passed-in parameter of moment's 'like' operation",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.MomentLikeReq"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/moment/modify": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Moment"
+                ],
+                "summary": "used to modify new moment and return status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "image",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "moment_id",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "string",
+                        "name": "text_content",
+                        "in": "formData"
+                    },
+                    {
+                        "type": "file",
+                        "description": "the image that will be posted by user",
+                        "name": "file",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/moment/publish": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Moment"
+                ],
+                "summary": "used to publish new moment and return status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "the passed-in parameter of moment's content",
+                        "name": "text_content",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "the image that will be posted by user",
+                        "name": "file",
+                        "in": "formData"
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/moment/squareList": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Moment"
+                ],
+                "summary": "given a certain page number and user_id, return moments of square and each viewNum increase by 1",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "the passed-in parameter of page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/moment/subCommentList": {
+            "get": {
+                "tags": [
+                    "Moment"
+                ],
+                "summary": "given a certain page number and belonging_id, return subcomments of this comment",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "the passed-in parameter of page",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "the passed-in parameter of belonging_id",
+                        "name": "belonging_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/test": {
             "get": {
                 "produces": [
@@ -319,6 +548,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "request.MomentLikeReq": {
+            "type": "object",
+            "properties": {
+                "like_status": {
+                    "type": "boolean"
+                },
+                "moment_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "request.UserLoginReq": {
             "type": "object",
             "properties": {
