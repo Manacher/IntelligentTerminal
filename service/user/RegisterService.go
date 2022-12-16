@@ -16,9 +16,16 @@ func ProcessRegister(c *gin.Context) (int, error) {
 		return 0, err
 	}
 
-	user := new(models.User)
+	if userRegisterReq.Account == "" || userRegisterReq.Password == "" || userRegisterReq.NickName == "" {
+		return 0, errors.New("missing parameters")
+	}
+
+	if len(userRegisterReq.Tags) < 3 {
+		return 0, errors.New("should select at least three tags")
+	}
 
 	// query whether the account exists
+	user := new(models.User)
 	if err := models.DB.Where("account = ?", userRegisterReq.Account).First(user).Error; err != nil {
 		if err != gorm.ErrRecordNotFound {
 			// system error
@@ -27,6 +34,20 @@ func ProcessRegister(c *gin.Context) (int, error) {
 	} else {
 		// the account exists, return error information
 		return 0, errors.New("account already exists")
+	}
+
+	// query whether the tag exists
+	tag := new(models.Tag)
+	for i := 0; i < len(userRegisterReq.Tags); i++ {
+		if err := models.DB.Where("id = ?", userRegisterReq.Tags[i]).First(tag).Error; err != nil {
+			if err != gorm.ErrRecordNotFound {
+				// system error
+				return 0, err
+			}
+		} else {
+			// the account exists, return error information
+			return 0, errors.New("tag doesn't exist")
+		}
 	}
 
 	// if the account doesn't exist, insert it into the database

@@ -48,14 +48,6 @@ info:
   title: Intelligent Terminal Backend API
   version: "0.1"
 paths:
-  /hello:
-    get:
-      produces:
-      - application/json
-      responses: {}
-      summary: init test function
-      tags:
-      - Test
   /moment/comment:
     post:
       parameters:
@@ -112,6 +104,20 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: used to delete new moment and return status
+      tags:
+      - Moment
+  /moment/followedList:
+    get:
+      parameters:
+      - description: the passed-in parameter of page
+        in: query
+        name: page
+        required: true
+        type: integer
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: given a certain page number and user_id, return moments of the follwed
       tags:
       - Moment
   /moment/like:
@@ -180,8 +186,7 @@ paths:
       responses: {}
       security:
       - ApiKeyAuth: []
-      summary: given a certain page number and user_id, return moments of square and
-        each viewNum increase by 1
+      summary: given a certain page number and user_id, return moments of square
       tags:
       - Moment
   /moment/subCommentList:
@@ -202,27 +207,6 @@ paths:
         this comment
       tags:
       - Moment
-  /test:
-    get:
-      produces:
-      - application/json
-      responses: {}
-      summary: used to test function
-      tags:
-      - Test
-  /test/upload:
-    post:
-      consumes:
-      - multipart/form-data
-      parameters:
-      - description: the avatar image file selected by the user
-        in: formData
-        name: file
-        type: file
-      responses: {}
-      summary: used to test the file upload function
-      tags:
-      - Test
   /user/avatarUpdate:
     post:
       parameters:

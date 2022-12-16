@@ -23,11 +23,14 @@ func ProcessMomentLike(c *gin.Context) (string, error) {
 
 	// insert or delete like relation
 	change := 0
+
 	if momentLikeReq.LikeStatus {
 		// delete
 		change--
+		isExist := models.Like{} // check if the record exists
+
 		if err := models.DB.Where("moment_id = ? AND user_id = ?",
-			momentLikeReq.MomentId, claim.ID).Delete(&models.Like{}).Error; err != nil {
+			momentLikeReq.MomentId, claim.ID).First(&isExist).Delete(&models.Like{}).Error; err != nil {
 			return "", err
 		}
 	} else {
