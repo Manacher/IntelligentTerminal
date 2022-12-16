@@ -16,18 +16,6 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/hello": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Test"
-                ],
-                "summary": "init test function",
-                "responses": {}
-            }
-        },
         "/moment/comment": {
             "post": {
                 "security": [
@@ -111,6 +99,29 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "the passed-in parameter of moment's id who is waiting to be deleted",
                         "name": "moment_id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/moment/followedList": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Moment"
+                ],
+                "summary": "given a certain page number and user_id, return moments of the follwed",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "the passed-in parameter of page",
+                        "name": "page",
                         "in": "query",
                         "required": true
                     }
@@ -219,7 +230,7 @@ const docTemplate = `{
                 "tags": [
                     "Moment"
                 ],
-                "summary": "given a certain page number and user_id, return moments of square and each viewNum increase by 1",
+                "summary": "given a certain page number and user_id, return moments of square",
                 "parameters": [
                     {
                         "type": "integer",
@@ -252,38 +263,6 @@ const docTemplate = `{
                         "name": "belonging_id",
                         "in": "query",
                         "required": true
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/test": {
-            "get": {
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Test"
-                ],
-                "summary": "used to test function",
-                "responses": {}
-            }
-        },
-        "/test/upload": {
-            "post": {
-                "consumes": [
-                    "multipart/form-data"
-                ],
-                "tags": [
-                    "Test"
-                ],
-                "summary": "used to test the file upload function",
-                "parameters": [
-                    {
-                        "type": "file",
-                        "description": "the avatar image file selected by the user",
-                        "name": "file",
-                        "in": "formData"
                     }
                 ],
                 "responses": {}

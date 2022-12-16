@@ -9,24 +9,45 @@ import (
 	"terminal/request"
 )
 
-func ProcessRegister(c *gin.Context) error {
+func ProcessRegister(c *gin.Context) (int, error) {
 	// bind data
 	userRegisterReq := new(request.UserRegisterReq)
 	if err := c.ShouldBind(userRegisterReq); err != nil {
-		return err
+		return 0, err
 	}
 
-	user := new(models.User)
+	if userRegisterReq.Account == "" || userRegisterReq.Password == "" || userRegisterReq.NickName == "" {
+		return 0, errors.New("missing parameters")
+	}
+
+	if len(userRegisterReq.Tags) < 3 {
+		return 0, errors.New("should select at least three tags")
+	}
 
 	// query whether the account exists
+	user := new(models.User)
 	if err := models.DB.Where("account = ?", userRegisterReq.Account).First(user).Error; err != nil {
 		if err != gorm.ErrRecordNotFound {
 			// system error
-			return err
+			return 0, err
 		}
 	} else {
 		// the account exists, return error information
-		return errors.New("account already exists")
+		return 0, errors.New("account already exists")
+	}
+
+	// query whether the tag exists
+	tag := new(models.Tag)
+	for i := 0; i < len(userRegisterReq.Tags); i++ {
+		if err := models.DB.Where("id = ?", userRegisterReq.Tags[i]).First(tag).Error; err != nil {
+			if err != gorm.ErrRecordNotFound {
+				// system error
+				return 0, err
+			}
+		} else {
+			// the account exists, return error information
+			return 0, errors.New("tag doesn't exist")
+		}
 	}
 
 	// if the account doesn't exist, insert it into the database
@@ -37,7 +58,7 @@ func ProcessRegister(c *gin.Context) error {
 
 	// insert the user information
 	if err := models.DB.Create(&user).Error; err != nil {
-		return err
+		return 0, err
 	}
 
 	// insert the user tag
@@ -47,9 +68,9 @@ func ProcessRegister(c *gin.Context) error {
 			TagID:  userRegisterReq.Tags[i],
 		}
 		if err := models.DB.Create(&userTag).Error; err != nil {
-			return err
+			return 0, err
 		}
 	}
 
-	return nil
+	return user.ID, nil
 }

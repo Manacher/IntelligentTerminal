@@ -38,16 +38,10 @@ func Register(app *gin.Engine) {
 	app.POST("/user/avatarUpdate", controller.AvatarUpdate)
 	app.GET("/user/momentList", controller.MomentList)
 
-	app.POST("/chat/sendText", controller.SendText)
-	app.POST("/chat/sendImage", controller.SendImage)
-	app.POST("/chat/sendAudio", controller.SendAudio)
-	app.POST("/chat/call", controller.Call)
-	app.GET("/chat/historyList", controller.HistoryList)
+	//app.GET("/hello", controller.Hello)
+	//app.GET("/test", controller.Test)
+	//app.POST("/test/upload", controller.TestUpload)
 
-	app.GET("/hello", controller.Hello)
-
-	app.GET("/test", controller.Test)
-	app.POST("/test/upload", controller.TestUpload)
 	app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	app.POST("/moment/publish", controller.MomentPublish)
@@ -58,4 +52,5 @@ func Register(app *gin.Engine) {
 	app.GET("/moment/squareList", controller.MomentSquareList)
 	app.GET("/moment/commentList", controller.MomentCommentList)
 	app.GET("/moment/subCommentList", controller.MomentSubCommentList)
+	app.GET("/moment/followedList", controller.MomentFollowedList)
 }

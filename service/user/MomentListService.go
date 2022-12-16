@@ -45,7 +45,7 @@ func GetMomentList(c *gin.Context) ([]response.UserMomentListResp, error) {
 			}
 		} else {
 			for i := 0; i < len(resp); i++ {
-				resp[i].SubscribeStatus = true
+				resp[i].IsFollowed = true
 			}
 		}
 	}

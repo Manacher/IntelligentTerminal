@@ -30,7 +30,7 @@ func Login(c *gin.Context) {
 func AvatarUpdate(c *gin.Context) {
 	address, err := user.ProcessAvatarUpload(c)
 	if err != nil {
-		util.UniformReturn(c, http.StatusOK, true, err.Error(), "")
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
 		return
 	}
 	util.UniformReturn(c, http.StatusOK, true, "upload avatar successfully", address)
@@ -43,11 +43,12 @@ func AvatarUpdate(c *gin.Context) {
 // @Router  /user/register [post]
 func Register(c *gin.Context) {
 	// process register pipeline
-	if err := user.ProcessRegister(c); err != nil {
-		util.UniformReturn(c, http.StatusOK, true, err.Error(), "")
+	id, err := user.ProcessRegister(c)
+	if err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
 		return
 	}
-	util.UniformReturn(c, http.StatusOK, true, "register successfully", "")
+	util.UniformReturn(c, http.StatusOK, true, "register successfully", id)
 }
 
 // Detail

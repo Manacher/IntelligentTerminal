@@ -4,11 +4,11 @@ import "github.com/dgrijalva/jwt-go"
 
 const Port = "40010"
 
-const Username = "root"
-const Password = "123456"
+//const Username = "root"
+//const Password = "123456"
 
-// const Username = "debian-sys-maint"
-// const Password = "xAftDU4Lgms6LLFJ"
+const Username = "debian-sys-maint"
+const Password = "xAftDU4Lgms6LLFJ"
 const Dbname = "terminal"
 const JwtSecret = "terminal-key"
 

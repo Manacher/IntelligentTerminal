@@ -87,12 +87,26 @@ func MomentComment(c *gin.Context) {
 
 // MomentSquareList
 // @Tags     Moment
-// @Summary  given a certain page number and user_id, return moments of square and each viewNum increase by 1
+// @Summary  given a certain page number and user_id, return moments of square
 // @Param    page query int true "the passed-in parameter of page"
 // @Router   /moment/squareList [get]
 // @Security ApiKeyAuth
 func MomentSquareList(c *gin.Context) {
 	res, err := moment.ProcessMomentSquareList(c)
+	if err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+	}
+	util.UniformReturn(c, http.StatusOK, true, "search successfully", res)
+}
+
+// MomentFollowedList
+// @Tags     Moment
+// @Summary  given a certain page number and user_id, return moments of the follwed
+// @Param    page query int true "the passed-in parameter of page"
+// @Router   /moment/followedList [get]
+// @Security ApiKeyAuth
+func MomentFollowedList(c *gin.Context) {
+	res, err := moment.ProcessMomentFollowedList(c)
 	if err != nil {
 		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
 	}
