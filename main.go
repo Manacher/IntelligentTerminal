@@ -37,6 +37,7 @@ func Register(app *gin.Engine) {
 	app.GET("/user/tagList", controller.TagList)
 	app.POST("/user/avatarUpdate", controller.AvatarUpdate)
 	app.GET("/user/momentList", controller.MomentList)
+	app.POST("/user/avatarUpdateBase64", controller.AvatarUpdateBase64)
 
 	//app.GET("/hello", controller.Hello)
 	//app.GET("/test", controller.Test)
@@ -53,4 +54,11 @@ func Register(app *gin.Engine) {
 	app.GET("/moment/commentList", controller.MomentCommentList)
 	app.GET("/moment/subCommentList", controller.MomentSubCommentList)
 	app.GET("/moment/followedList", controller.MomentFollowedList)
+
+	app.GET("/match/normal", controller.NormalMatch)
+	app.POST("/match/audio", controller.AudioMatch)
+	app.GET("/match/matcherDetail", controller.MatcherDetail)
+	app.GET("/match/audioStop", controller.AudioMatchStop)
+
+	//app.GET("/match/anonymous", controller.AnonymousMatch)
 }

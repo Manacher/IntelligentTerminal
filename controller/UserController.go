@@ -168,3 +168,18 @@ func MomentList(c *gin.Context) {
 	}
 	util.UniformReturn(c, http.StatusOK, true, "get moment list successfully", momentList)
 }
+
+// AvatarUpdateBase64
+// @Tags     User
+// @Summary  used to update the avatar in the form of base64 string
+// @Param    "base64" body request.AvatarUpdateBase64Req true "base64 string"
+// @Router   /user/avatarUpdateBase64 [post]
+// @Security ApiKeyAuth
+func AvatarUpdateBase64(c *gin.Context) {
+	path, err := user.ProcessAvatarUpdateBase64(c)
+	if err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
+	}
+	util.UniformReturn(c, http.StatusOK, true, "upload successfully", path)
+}

@@ -16,6 +16,91 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/match/audio": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Match"
+                ],
+                "summary": "used to get audio match result",
+                "parameters": [
+                    {
+                        "description": "audio match request parameter",
+                        "name": "match\"",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.AudioMatchReq"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/match/audioStop": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Match"
+                ],
+                "summary": "used to stop current audio match",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/match/matcherDetail": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Match"
+                ],
+                "summary": "used to get audio matcher's detailed information",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/match/normal": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Match"
+                ],
+                "summary": "used to get normal match result",
+                "responses": {}
+            }
+        },
         "/moment/comment": {
             "post": {
                 "security": [
@@ -290,6 +375,31 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/user/avatarUpdateBase64": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "used to update the avatar in the form of base64 string",
+                "parameters": [
+                    {
+                        "description": "base64 string",
+                        "name": "\"base64\"",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/request.AvatarUpdateBase64Req"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/user/detail": {
             "get": {
                 "security": [
@@ -527,6 +637,25 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "request.AudioMatchReq": {
+            "type": "object",
+            "properties": {
+                "channel_name": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "request.AvatarUpdateBase64Req": {
+            "type": "object",
+            "properties": {
+                "base64": {
+                    "type": "string"
+                }
+            }
+        },
         "request.MomentLikeReq": {
             "type": "object",
             "properties": {

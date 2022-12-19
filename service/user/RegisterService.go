@@ -37,16 +37,15 @@ func ProcessRegister(c *gin.Context) (int, error) {
 	}
 
 	// query whether the tag exists
-	tag := new(models.Tag)
 	for i := 0; i < len(userRegisterReq.Tags); i++ {
+		tag := new(models.Tag)
 		if err := models.DB.Where("id = ?", userRegisterReq.Tags[i]).First(tag).Error; err != nil {
 			if err != gorm.ErrRecordNotFound {
 				// system error
 				return 0, err
+			} else {
+				return 0, errors.New("tag doesn't exist")
 			}
-		} else {
-			// the account exists, return error information
-			return 0, errors.New("tag doesn't exist")
 		}
 	}
 

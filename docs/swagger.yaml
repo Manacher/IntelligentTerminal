@@ -1,4 +1,16 @@
 definitions:
+  request.AudioMatchReq:
+    properties:
+      channel_name:
+        type: string
+      uid:
+        type: integer
+    type: object
+  request.AvatarUpdateBase64Req:
+    properties:
+      base64:
+        type: string
+    type: object
   request.MomentLikeReq:
     properties:
       like_status:
@@ -48,6 +60,57 @@ info:
   title: Intelligent Terminal Backend API
   version: "0.1"
 paths:
+  /match/audio:
+    post:
+      parameters:
+      - description: audio match request parameter
+        in: body
+        name: match"
+        required: true
+        schema:
+          $ref: '#/definitions/request.AudioMatchReq'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: used to get audio match result
+      tags:
+      - Match
+  /match/audioStop:
+    get:
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: used to stop current audio match
+      tags:
+      - Match
+  /match/matcherDetail:
+    get:
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: integer
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: used to get audio matcher's detailed information
+      tags:
+      - Match
+  /match/normal:
+    get:
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: used to get normal match result
+      tags:
+      - Match
   /moment/comment:
     post:
       parameters:
@@ -218,6 +281,21 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: used to upload image and replace user's avatar as the uploaded image
+      tags:
+      - User
+  /user/avatarUpdateBase64:
+    post:
+      parameters:
+      - description: base64 string
+        in: body
+        name: '"base64"'
+        required: true
+        schema:
+          $ref: '#/definitions/request.AvatarUpdateBase64Req'
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: used to update the avatar in the form of base64 string
       tags:
       - User
   /user/detail:
