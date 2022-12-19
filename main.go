@@ -54,6 +54,7 @@ func Register(app *gin.Engine) {
 	app.GET("/moment/commentList", controller.MomentCommentList)
 	app.GET("/moment/subCommentList", controller.MomentSubCommentList)
 	app.GET("/moment/followedList", controller.MomentFollowedList)
+	app.GET("/moment/getDetail", controller.MomentGetDetail)
 
 	app.GET("/match/normal", controller.NormalMatch)
 	app.POST("/match/audio", controller.AudioMatch)

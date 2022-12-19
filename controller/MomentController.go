@@ -85,6 +85,20 @@ func MomentComment(c *gin.Context) {
 	util.UniformReturn(c, http.StatusOK, true, "comment successfully", token)
 }
 
+// MomentGetDetail
+// @Tags    Moment
+// @Summary given a certain moment id return info of this moment
+// @Param   moment_id query int true "the passed-in parameter of moment_id"
+// @Router  /moment/getDetail [get]
+// @Security ApiKeyAuth
+func MomentGetDetail(c *gin.Context) {
+	res, err := moment.ProcessMomentGetDetail(c)
+	if err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+	}
+	util.UniformReturn(c, http.StatusOK, true, "search successfully", res)
+}
+
 // MomentSquareList
 // @Tags     Moment
 // @Summary  given a certain page number and user_id, return moments of square

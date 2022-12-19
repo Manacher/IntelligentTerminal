@@ -60,6 +60,14 @@ info:
   title: Intelligent Terminal Backend API
   version: "0.1"
 paths:
+  /match/anonymous:
+    get:
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: used to get anonymous match result
+      tags:
+      - Match
   /match/audio:
     post:
       parameters:
@@ -78,7 +86,7 @@ paths:
   /match/audioStop:
     get:
       parameters:
-      - description: id
+      - description: call id
         in: query
         name: id
         required: true
@@ -92,7 +100,7 @@ paths:
   /match/matcherDetail:
     get:
       parameters:
-      - description: id
+      - description: call id
         in: query
         name: id
         required: true
@@ -181,6 +189,20 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: given a certain page number and user_id, return moments of the follwed
+      tags:
+      - Moment
+  /moment/getDetail:
+    get:
+      parameters:
+      - description: the passed-in parameter of moment_id
+        in: query
+        name: moment_id
+        required: true
+        type: integer
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: given a certain moment id return info of this moment
       tags:
       - Moment
   /moment/like:

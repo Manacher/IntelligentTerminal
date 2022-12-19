@@ -16,6 +16,20 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/match/anonymous": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Match"
+                ],
+                "summary": "used to get anonymous match result",
+                "responses": {}
+            }
+        },
         "/match/audio": {
             "post": {
                 "security": [
@@ -55,7 +69,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "id",
+                        "description": "call id",
                         "name": "id",
                         "in": "query",
                         "required": true
@@ -78,7 +92,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "id",
+                        "description": "call id",
                         "name": "id",
                         "in": "query",
                         "required": true
@@ -207,6 +221,29 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "the passed-in parameter of page",
                         "name": "page",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/moment/getDetail": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "tags": [
+                    "Moment"
+                ],
+                "summary": "given a certain moment id return info of this moment",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "the passed-in parameter of moment_id",
+                        "name": "moment_id",
                         "in": "query",
                         "required": true
                     }
