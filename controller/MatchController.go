@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"terminal/service/match"
+	"terminal/service/user"
 	"terminal/util"
 )
 
@@ -66,16 +67,16 @@ func AudioMatchStop(c *gin.Context) {
 	util.UniformReturn(c, http.StatusOK, true, "stop successfully", "")
 }
 
-//// AnonymousMatch
-//// @Tags     Match
-//// @Summary  used to get anonymous match result
-//// @Router   /match/anonymous [get]
-//// @Security ApiKeyAuth
-//func AnonymousMatch(c *gin.Context) {
-//	resp, err := user.ProcessLogin(c)
-//	if err != nil {
-//		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
-//		return
-//	}
-//	util.UniformReturn(c, http.StatusOK, true, "login successfully", resp)
-//}
+// AnonymousMatch
+// @Tags     Match
+// @Summary  used to get anonymous match result
+// @Router   /match/anonymous [get]
+// @Security ApiKeyAuth
+func AnonymousMatch(c *gin.Context) {
+	resp, err := user.ProcessLogin(c)
+	if err != nil {
+		util.UniformReturn(c, http.StatusOK, false, err.Error(), "")
+		return
+	}
+	util.UniformReturn(c, http.StatusOK, true, "login successfully", resp)
+}

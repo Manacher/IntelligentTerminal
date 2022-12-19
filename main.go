@@ -59,6 +59,7 @@ func Register(app *gin.Engine) {
 	app.POST("/match/audio", controller.AudioMatch)
 	app.GET("/match/matcherDetail", controller.MatcherDetail)
 	app.GET("/match/audioStop", controller.AudioMatchStop)
+	app.GET("/match/anonymous", controller.AnonymousMatch)
 
 	//app.GET("/match/anonymous", controller.AnonymousMatch)
 }

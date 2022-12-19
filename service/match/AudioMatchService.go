@@ -53,6 +53,7 @@ func ProcessAudioMatch(c *gin.Context) (*response.AudioMatchResp, error) {
 			// return token and match id
 			resp.Token = token
 			resp.CallID = callID
+			resp.ChannelName = audioMatchReq.ChannelName
 			resp.IsFirst = true
 		}
 	} else {
@@ -95,6 +96,7 @@ func ProcessAudioMatch(c *gin.Context) (*response.AudioMatchResp, error) {
 		resp.CallID = call.ID
 		resp.IsFirst = false
 		resp.IsFollowed = isFollowed
+		resp.ChannelName = call.ChannelName
 	}
 	return resp, nil
 }
